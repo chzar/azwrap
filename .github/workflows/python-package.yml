@@ -6,8 +6,7 @@ name: Python package
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags: [ '*' ]
 
 jobs:
   build:
@@ -15,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.7, 3.8, 3.9]
+        python-version: [3.9]
 
     steps:
     - uses: actions/checkout@v2
@@ -34,6 +33,17 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
+    - name: Create source distribution
       run: |
-        pytest
+        python setup.py sdist
+    - name: Create Release
+      # You may pin to the exact commit or the version.
+      # uses: ncipollo/release-action@7c5046364401a3e122086927d07617a3d756b658
+      uses: ncipollo/release-action@v1.8.4
+      with:
+        draft: true
+        allowUpdates: true
+        artifacts: dist/*.tar.gz
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    
