@@ -43,6 +43,6 @@ jobs:
       with:
         allowUpdates: true
         artifacts: dist\*.tar.gz
-        token: # default is 
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     
