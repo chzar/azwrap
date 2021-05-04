@@ -8,6 +8,7 @@ from contextlib import redirect_stderr, redirect_stdout
 from io import StringIO
 from azure.cli.core import get_default_cli
 from pyfakefs.fake_filesystem_unittest import Patcher, fake_filesystem
+from typing import *
 
 UNSUPPORTED_COMMANDS = ["login"]
 
@@ -29,7 +30,7 @@ class AzUnsupportedCommand(Exception):
 class Az:
     def __init__(self):
         self._cli = get_default_cli()
-    def run(self, commands: list[str], options_dict=dict(), ignore_errors=False):
+    def run(self, commands: List[str], options_dict=dict(), ignore_errors=False):
         if commands[0].lower() in UNSUPPORTED_COMMANDS:
             raise AzUnsupportedCommand
 
