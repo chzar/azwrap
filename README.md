@@ -1,10 +1,10 @@
 # Introduction
-azwrap is the "ez" wrapper for Az-Cli!
+azwrap is the "ez" wrapper for az-cli!
 
 Are you a Cloud engineer that:
 * Is tired of the awkward powershell and az cli mish-mash?
 * Wants a Pythonic way of managing Azure infrastructure?
-* Wants access to many, high quality client libraries in the Python ecosystem (such as Kubenetes Python Client for managing AKS)?
+* Wants seamless access to the many, high quality client libraries in the Python ecosystem (such as Kubenetes Python Client for managing AKS)?
 * Wants to use mature templating libraries such as Jinja2 with ARM / Bicep templates to get similar functionality to helm charts?
 
 Then ask your doctor if azwrap is right for you!
