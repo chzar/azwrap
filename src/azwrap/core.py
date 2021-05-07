@@ -1,6 +1,6 @@
 import sys
 import os
-import json
+import json 
 from pathlib import Path
 from types import SimpleNamespace
 from enum import Enum
@@ -9,29 +9,26 @@ from io import StringIO
 from azure.cli.core import get_default_cli
 from pyfakefs.fake_filesystem_unittest import Patcher, fake_filesystem
 from typing import *
+from azwrap.exceptions import AzRequestError, AzUnsupportedCommand, AzParserError, AzCommandSyntaxError, AzResourceNotFoundError
 
-UNSUPPORTED_COMMANDS = ["login"]
+__unsupported_commands = ["login"]
+
+__error_dict = {
+            1: lambda x: raise AzRequestError,
+            2: lambda x: raise AzParserError,
+            3: lambda x: raise AzResourceNotFoundError,
+            4: lambda x: raise AzCommandSyntaxError(x)
+        }
 
 class DeploymentScope(Enum):
     Subscription = 0
     ResourceGroup = 1
 
-class AzRequestError(Exception):
-    pass
-class AzParserError(Exception):
-    pass
-class AzResourceNotFoundError(Exception):
-    pass
-class AzCommandSyntaxError(Exception):
-    pass
-class AzUnsupportedCommand(Exception):
-    pass
-
 class Az:
     def __init__(self):
         self._cli = get_default_cli()
     def run(self, commands: List[str], options_dict=dict(), ignore_errors=False):
-        if commands[0].lower() in UNSUPPORTED_COMMANDS:
+        if commands[0].lower() in __unsupported_commands:
             raise AzUnsupportedCommand
 
         for k, v in options_dict.items():
@@ -63,17 +60,9 @@ class Az:
             and stderr != '' ):
             return_code = 4 
 
-        
+        # raise errors if applicable
         if not ignore_errors:
-            if return_code == 1:
-                raise AzRequestError
-            elif return_code == 2:
-                raise AzParserError
-            elif return_code == 3:
-                raise AzResourceNotFoundError
-            elif return_code == 4:
-                raise AzCommandSyntaxError
-
+            __error_dict[return_code](stderr)
 
         try: 
             res = json.loads(output, object_hook=lambda item: SimpleNamespace(**item))
