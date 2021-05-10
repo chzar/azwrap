@@ -38,7 +38,7 @@ output = make_vnet({'name': 'vnet1', 'resource-group': 'MyResourceGroup'})
 # deploy an arm template in code
 vnet2_deployment = az.deploy(tmpl, 'MyResourceGroup', DeploymentScope.ResourceGroup)
 
-# returned objects are lists and namespace objects
+# returned objects are lists and SimpleNamespace objects
 first_rg = az.run('group list'.split())[0].name
 
 # error handling
