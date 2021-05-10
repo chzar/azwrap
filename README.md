@@ -75,9 +75,9 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      wget https://github.com/chzar/azwrap/releases/download/v0.2/azwrap-0.2.tar.gz
+      wget https://github.com/chzar/azwrap/releases/download/v0.3/azwrap-0.3.tar.gz
       python -m pip --upgrade pip
-      python -m pip install azwrap-0.2.tar.gz
+      python -m pip install azwrap-0.3.tar.gz
 - task: AzureCLI@2
   inputs:
     azureSubscription: '###REDACTED###'
