@@ -85,7 +85,7 @@ steps:
     scriptLocation: 'inlineScript'
     inlineScript: |
       python <(cat <<HEREDOC
-      from azwrap import Az
+      from azwrap import *
 
       az = Az()
       print(az.run('group list'.split()))
