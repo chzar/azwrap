@@ -11,13 +11,13 @@ from pyfakefs.fake_filesystem_unittest import Patcher, fake_filesystem
 from typing import *
 from azwrap.exceptions import AzRequestError, AzUnsupportedCommand, AzParserError, AzCommandSyntaxError, AzResourceNotFoundError
 
-__unsupported_commands = ["login"]
+_unsupported_commands = ["login"]
 
-__error_dict = {
-            1: lambda x: raise AzRequestError,
-            2: lambda x: raise AzParserError,
-            3: lambda x: raise AzResourceNotFoundError,
-            4: lambda x: raise AzCommandSyntaxError(x)
+_error_dict = {
+            1: AzRequestError,
+            2: AzParserError,
+            3: AzResourceNotFoundError,
+            4: AzCommandSyntaxError
         }
 
 class DeploymentScope(Enum):
@@ -28,7 +28,7 @@ class Az:
     def __init__(self):
         self._cli = get_default_cli()
     def run(self, commands: List[str], options_dict=dict(), ignore_errors=False):
-        if commands[0].lower() in __unsupported_commands:
+        if commands[0].lower() in _unsupported_commands:
             raise AzUnsupportedCommand
 
         for k, v in options_dict.items():
@@ -62,7 +62,7 @@ class Az:
 
         # raise errors if applicable
         if not ignore_errors:
-            __error_dict[return_code](stderr)
+            raise _error_dict[return_code](stdout, stderr)
 
         try: 
             res = json.loads(output, object_hook=lambda item: SimpleNamespace(**item))

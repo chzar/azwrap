@@ -9,14 +9,9 @@ Are you a Cloud engineer that:
 
 Then ask your doctor if azwrap is right for you!
 
-# Features
-* Pythonic Error Handling
-* Azure Pipelines Compatible
-* Deploy Arm Templates from code
-
 # Basic Usage
-```
-from azwrap import Az
+```python
+from azwrap import *
 
 tmpl = '{
             "name": "vnet2",
@@ -30,7 +25,7 @@ tmpl = '{
 
 az = Az()
 
-# create some 'shortcut' functions
+# create 'shortcut' functions
 get_account = lambda: az.run('account show'.split()).id
 make_vnet = lambda opts: az.run('network vnet create'.split(), options_dict=opts)
 
@@ -46,6 +41,13 @@ vnet2_deployment = az.deploy(tmpl, 'MyResourceGroup', DeploymentScope.ResourceGr
 
 # returned objects are lists and namespace objects
 first_rg = az.run('group list'.split())[0].name
+
+# error handling
+try:
+    print(az.run("group lt".split()))
+except AzCommandSyntaxError as e:
+    print(e.stdout)
+    print(e.stderr)
 ```
 
 # Pipeline Example
