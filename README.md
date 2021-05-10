@@ -32,7 +32,6 @@ make_vnet = lambda opts: az.run('network vnet create'.split(), options_dict=opts
 # get account id
 account_id = get_account()
 
-
 # pass in cmdline options in a dictionary
 output = make_vnet({'name': 'vnet1', 'resource-group': 'MyResourceGroup'})
 
