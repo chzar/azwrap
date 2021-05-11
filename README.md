@@ -92,3 +92,6 @@ steps:
       HEREDOC
       )
 ```
+
+# Is azwrap Production Ready?
+azwrap does not modify any of az-cli's functionality; it simply provides a pythonic way to use az cli. In theory, using azwrap is relatively safe but, it is not possible to exhaustively test azwrap. Usage of azwrap is at your own risk!
