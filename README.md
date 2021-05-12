@@ -25,9 +25,6 @@ tmpl = '{
 
 az = Az()
 
-# create 'shortcut' functions
-get_account = lambda: az.run('account show'.split()).id
-
 # get account id
 account_id = az.run('account show').id
 
