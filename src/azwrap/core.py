@@ -27,7 +27,8 @@ class DeploymentScope(Enum):
 class Az:
     def __init__(self):
         self._cli = get_default_cli()
-    def run(self, commands: List[str], options_dict=dict(), ignore_errors=False):
+    def run(self, commands_str: List[str], options_dict: Dict(str, str) = {}, ignore_errors=False):
+        commands = commands_str.split()
         if commands[0].lower() in _unsupported_commands:
             raise AzUnsupportedCommand
 
@@ -61,7 +62,7 @@ class Az:
             return_code = 4 
 
         # raise errors if applicable
-        if not ignore_errors:
+        if not ignore_errors and return_code != 0:
             raise _error_dict[return_code](stdout, stderr)
 
         try: 
