@@ -87,7 +87,7 @@ steps:
       from azwrap import *
 
       az = Az()
-      print(az.run('group list'.split()))
+      print(az.run('group list'))
       HEREDOC
       )
 ```
