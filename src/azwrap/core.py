@@ -83,4 +83,4 @@ class Az:
         with Patcher() as patcher:
             patcher.fs.add_real_directory(str(Path.home()))
             patcher.fs.create_file(fake_template_path, contents=arm_json)
-            return self.run(commands[scope_type.value].split())
+            return self.run(commands[scope_type.value])
