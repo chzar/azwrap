@@ -27,23 +27,22 @@ az = Az()
 
 # create 'shortcut' functions
 get_account = lambda: az.run('account show'.split()).id
-make_vnet = lambda opts: az.run('network vnet create'.split(), options_dict=opts)
 
 # get account id
-account_id = get_account()
+account_id = az.run('account show').id
 
 # pass in cmdline options in a dictionary
-output = make_vnet({'name': 'vnet1', 'resource-group': 'MyResourceGroup'})
+output = az.run('network vnet create', options_dict={'name': 'vnet1', 'resource-group': 'MyResourceGroup'})
 
 # deploy an arm template in code
 vnet2_deployment = az.deploy(tmpl, 'MyResourceGroup', DeploymentScope.ResourceGroup)
 
 # returned objects are lists and SimpleNamespace objects
-first_rg = az.run('group list'.split())[0].name
+first_rg = az.run('group list')[0].name
 
 # error handling
 try:
-    print(az.run("group lt".split()))
+    print(az.run("group lt"))
 except AzCommandSyntaxError as e:
     print(e.stdout)
     print(e.stderr)
